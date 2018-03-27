@@ -1,7 +1,9 @@
 package rpg.personnages;
 
+import java.util.ArrayList;
+
 import rpg.actions.Dommageable;
-import rpg.carte.Case;
+import rpg.objets.Objet;
 
 /**
  * Définition du personnage dans le jeu.
@@ -29,11 +31,14 @@ public abstract class Personnage implements Dommageable {
 	 */
 	protected int _energieMaximale;
 	
+	
 	/**
-	 * Case où se trouve le personnage actuellement.
+	 * Quantité d'or de chaque personnage de chaque personnage.
 	 */
-	protected Case _position;
-
+	protected int _or;
+	
+	protected ArrayList<Objet> objets;
+	
 	/**
 	 * Créer un nouveau personnage avec une énergie maximale de départ de 20.
 	 */
@@ -54,7 +59,7 @@ public abstract class Personnage implements Dommageable {
 	 * Récupérer le type du personnage.
 	 * @return Le type du personnage.
 	 */
-	public TypePersonnage getType() {
+	public TypePersonnage GetType() {
 		return this._type;
 	}
 
@@ -62,7 +67,7 @@ public abstract class Personnage implements Dommageable {
 	 * Récupérer le nom du personnage.
 	 * @return Le nom du personnage.
 	 */
-	public String getNom() {
+	public String GetNom() {
 		return this._nom;
 	}
 	
@@ -72,6 +77,15 @@ public abstract class Personnage implements Dommageable {
 	 */
 	public int getEnergieActuelle() {
 		return _energieActuelle;
+	}
+	
+	
+	/**
+	 * Récupérer la quantité d'or d'un personnage
+	 * @return quantité d'or
+	 */
+	public int get_or() {
+		return _or;
 	}
 	
 	/**
@@ -122,29 +136,12 @@ public abstract class Personnage implements Dommageable {
 	}
 	
 	/**
-	 * Récupérer la position du personnage.
-	 * @return La position actuelles du personnage.
-	 */
-	public Case getPosition() {
-		return this._position;
-	}
-	
-	/**
-	 * Modifier la position du personnage.
-	 * @param position Nouvelle position du personnage.
-	 */
-	public void setPosition(Case position) {
-		position.getOccupants().add(this);
-		this._position = position;
-	}
-	
-	/**
 	 * Afficher l'objet, pour debug.
 	 */
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
-		result.append(String.format("%s (%s) en %s | ", this._nom, this._type, this._position));
+		result.append(String.format("%s de type %s | ", this._nom, this._type));
 		result.append(String.format("Energie : %s / %s", this._energieActuelle, this._energieMaximale));
 		
 		return result.toString();
