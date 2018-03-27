@@ -3,7 +3,7 @@ package rpg.personnages;
 import rpg.actions.Combattant;
 
 /**
- * Classe représentant un ennemi.
+ * Classe reprÃ©sentant un ennemi.
  * @author marechal
  *
  */

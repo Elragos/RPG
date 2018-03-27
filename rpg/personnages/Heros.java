@@ -6,17 +6,17 @@ import rpg.actions.Combattant;
 public class Heros extends Personnage implements Combattant {
 
 	/**
-	 * Créer un nouveau héros.
-	 * @param energieMaximale Energie maximale de départ.
+	 * CrÃ©er un nouveau hÃ©ros.
+	 * @param energieMaximale Energie maximale de dÃ©part.
 	 */
 	public Heros(int energieMaximale) {	
 		super(energieMaximale);
 		this._type = TypePersonnage.Heros;
-		this._nom = "Héros du jeu";
+		this._nom = "Hï¿½ros du jeu";
 	}
 	
 	/**
-	 * A la mort du héros, lancer le GameOver.
+	 * A la mort du hÃ©ros, lancer le GameOver.
 	 */
 	@Override
 	public void finVie() {
@@ -24,7 +24,7 @@ public class Heros extends Personnage implements Combattant {
 	}
 	
 	/**
-	 * Calculer la puissance d'attaque du héros.
+	 * Calculer la puissance d'attaque du hÃ©ros.
 	 */
 	@Override
 	public int calculerAttaque() {

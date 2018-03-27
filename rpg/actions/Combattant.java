@@ -1,7 +1,7 @@
 package rpg.actions;
 
 /**
- * Interface définissant un combattant.
+ * Interface dÃ©finissant un combattant.
  * @author marechal
  */
 public interface Combattant extends Dommageable {
@@ -11,8 +11,8 @@ public interface Combattant extends Dommageable {
 	 */
 	public int calculerAttaque();
 	/**
-	 * Calculer la défense du combattant.
-	 * @return La défense du combattant.
+	 * Calculer la dÃ©fense du combattant.
+	 * @return La dÃ©fense du combattant.
 	 */
 	public int calculerDefense();
 }

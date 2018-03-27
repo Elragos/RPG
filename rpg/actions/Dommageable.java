@@ -1,19 +1,19 @@
 package rpg.actions;
 
 /**
- * Interface décrivant un objet interactif pouvant prendre des dégâts.
+ * Interface dÃ©crivant un objet interactif pouvant prendre des dÃ©gÃ¢ts.
  * @author marechal
  *
  */
 public interface Dommageable extends Interactif {
 	/**
-	 * Prendre des dégâts.
+	 * Prendre des dÃ©gÃ¢ts.
 	 * @param degats force de frappe.
 	 */
 	public void prendreDegats(int degats);
 	
 	/**
-	 * Evènement lorsque l'objet n'a plus de vie.
+	 * EvÃ¨nement lorsque l'objet n'a plus de vie.
 	 */
 	public void finVie();
 	

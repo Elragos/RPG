@@ -1,18 +1,28 @@
 package rpg.objets;
 
-
+/**
+ * Type d'objet dans le jeu.
+ * @author marechal
+ */
 public enum TypeObjet {
 
-	/*Permet au héros de récupérer des points de vie*/
+	/**
+	 * Permet au hÃ©ros de rÃ©cupÃ©rer des points de vie
+	*/
 	Potions,
 	
-	/*Permet d'augmenter les dégats du héros*/
+	/** 
+	 * Permet d'augmenter les dÃ©gats du hÃ©ros
+	*/
 	Armes,
 	
-	/*Permetde soigner le héros en cas de maladie */
+	/**
+	 * Permet de soigner le hÃ©ros en cas de maladie
+	*/
 	Antidotes,
 	
-	/*Permet au héros de voir les cases autour de lui*/
-	Jumelles,
-	
+	/**
+	 * Permet au hÃ©ros de voir les cases autour de lui
+	*/
+	Jumelles,	
 }

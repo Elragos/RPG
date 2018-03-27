@@ -6,11 +6,10 @@ import rpg.objets.Objet;
 public class Ramasser implements Action{
 	
 	@Override
-	public void executer(Interactif emetteur, Interactif receveur) {
+	public boolean executer(Interactif emetteur, Interactif receveur, Object... params) {
 		Personnage ramasseur = (Personnage) emetteur;
 		Objet cible = (Objet) receveur;
 
-		
+		return true;
 	}
-
 }

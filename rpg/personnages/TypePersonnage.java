@@ -2,15 +2,15 @@ package rpg.personnages;
 
 public enum TypePersonnage {
 	/**
-	 * Héros, personnage principale
+	 * HÃ©ros, personnage principale
 	 */
 	Heros,
 	/**
-	 * Ennemi, créature à combattre
+	 * Ennemi, crÃ©ature Ã  combattre
 	 */
 	Ennemi,
 	/**
-	 * Guérisseur, bon ou mauvais
+	 * GuÃ©risseur, bon ou mauvais
 	 */
 	Guerisseur
 }

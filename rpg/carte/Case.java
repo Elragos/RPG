@@ -4,57 +4,54 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import rpg.objets.Objet;
-import rpg.objets.TypeObjet;
 import rpg.personnages.Personnage;
 
 public class Case {
 
-	ArrayList<Personnage> occupants;
-	ArrayList<Objet> objets;
-	int or;
-	TypeTerrain type;
+	protected ArrayList<Personnage> _occupants;
+	protected ArrayList<Objet> _objets;
+	protected TypeTerrain _type;
+	protected int _or;
+	
+	private final int[] VALEUR_OR = {0,0,0,1,2,5};
 	
 	public Case(TypeTerrain type) {
-		this.occupants = new ArrayList<Personnage>();
-		this.objets = new ArrayList<Objet>();
-		this.type = type;
+		this._occupants = new ArrayList<Personnage>();
+		this._objets = new ArrayList<Objet>();
+		this._type = type;
 		
 		Objet random = Objet.genererObjet();
 		if (random!= null) {
-			this.objets.add(random);
+			this._objets.add(random);
 		}
+	    
+		int randomInt = ThreadLocalRandom.current().nextInt(0, VALEUR_OR.length);		
+		this._or = VALEUR_OR[randomInt];
 	}
 	
 	public ArrayList<Personnage> getOccupants() {
-		return occupants;
+		return this._occupants;
 	}
 	
 	public ArrayList<Objet> getObjet() {
-		return objets;
+		return this._objets;
 	}
 	
 	public int getCoutEnergie() {
-		return this.type.ordinal() + 1;
+		return this._type.ordinal() + 1;
 	}
 	
 	public TypeTerrain getType() {    	
-		return this.type;
+		return this._type;
 	}
 	
-	public int getOr() {
-		int valeurOr[] = {0,0,0,1,2,5};
-	    
-		int randomInt = ThreadLocalRandom.current().nextInt(0, valeurOr.length);
-		for(int i = 0; i < randomInt; i++)
-		{
-			or = valeurOr[i];
-		}
-		return or;
+	public int getOr() {		
+		return _or;
 	}
 
 	@Override
 	public String toString() {
-		return this.type.toString().substring(0, 1);		
+		return this._type.toString().substring(0, 1);		
 	}	
 }
 

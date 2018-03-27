@@ -1,9 +1,8 @@
 package rpg.actions;
 
 /**
- * Classe pour signaler un objet comme étant interactif
+ * Classe pour signaler un objet comme Ã©tant interactif
  * @author marechal
- *
  */
 public interface Interactif {
 
