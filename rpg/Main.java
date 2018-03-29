@@ -52,9 +52,7 @@ public class Main {
 		
 		// On positionne le héros en haut à gauche de la carte
 		heros.setPosition(carte.getCase("0-0"));
-		
-		carte.afficher();
-		
+			
 		// Tant que la partie n'est pas terminée
 		while(!partieTerminee) {
 			DemanderAction(heros, carte);
@@ -92,6 +90,7 @@ public class Main {
 		switch(MenuSelection(actions, "Que voulez-vous faire ?")) {
 			case "Se déplacer":
 				GererDeplacement(heros, carte);
+				carte.deplacerEnnemis();
 				break;
 			case "Ramasser":
 				Action ramasser = new Ramasser();

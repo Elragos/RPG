@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+import rpg.actions.Deplacement;
 import rpg.actions.Interactif;
 import rpg.personnages.Ennemi;
 import rpg.personnages.Guerisseur;
@@ -180,5 +181,23 @@ public class Carte implements Interactif{
 	 */
 	public Case getCase(String coordonnees) {
 		return cases.get(coordonnees);
+	}
+	/**
+	 * Déplacer les ennemis aléatoirement sur la carte.
+	 */
+	public void deplacerEnnemis() {
+		// Pour chaque ennemi
+		for(Ennemi e : this._ennemis) {
+			// Récupérer les cases où il peut se déplacer
+			ArrayList<Case> possibilites = Deplacement.deplacementsPossibles(this, e);
+			
+			// En choisir une au hasard
+			int randomInt = ThreadLocalRandom.current().nextInt(0, possibilites.size());
+			Case destination = possibilites.get(randomInt);
+			
+			// Le déplacer sur cette case
+			Deplacement deplacer = new Deplacement();
+			deplacer.executer(e, this, destination.getCoordonnees());
+		}		
 	}
 }
