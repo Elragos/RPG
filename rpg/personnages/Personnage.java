@@ -1,15 +1,11 @@
 package rpg.personnages;
 
-import java.util.ArrayList;
-
 import rpg.actions.Dommageable;
 import rpg.carte.Case;
-import rpg.objets.Objet;
 
 /**
- * D�finition du personnage dans le jeu.
+ * Définition du personnage dans le jeu.
  * @author marechal
- *
  */
 public abstract class Personnage implements Dommageable {
 	/**
@@ -28,21 +24,14 @@ public abstract class Personnage implements Dommageable {
 	protected int _energieActuelle;
 	
 	/**
-	 * Energie maximale du h�ros.
+	 * Energie maximale du héros.
 	 */
 	protected int _energieMaximale;
 	
 	/**
-	 * Quantit� d'or de chaque personnage de chaque personnage.
-	 */
-	protected int _or;
-	
-	/**
-	 * Case o� se trouve le personnage actuellement.
+	 * Case où se trouve le personnage actuellement.
 	 */
 	protected Case _position;
-	
-	protected ArrayList<Objet> objets;
 	
 	/**
 	 * Créer un nouveau personnage avec une énergie maximale de départ de 20.
@@ -77,20 +66,11 @@ public abstract class Personnage implements Dommageable {
 	}
 	
 	/**
-	 * Récupérer l'nergie actuelle du personnage.
+	 * Récupérer l'énergie actuelle du personnage.
 	 * @return L'énergie actuelle du personnage.
 	 */
 	public int getEnergieActuelle() {
 		return _energieActuelle;
-	}
-	
-	
-	/**
-	 * Récupérer la quantité d'or d'un personnage
-	 * @return quantité d'or
-	 */
-	public int get_or() {
-		return _or;
 	}
 	
 	/**
@@ -98,10 +78,13 @@ public abstract class Personnage implements Dommageable {
 	 * @param energieActuelle L'énergie actuelle du personnage.
 	 */
 	public void setEnergieActuelle(int energieActuelle) {
+		// Si plus d'énergie
 		if (energieActuelle <= 0) {
 			this._energieActuelle = 0;
+			// Déclarer la fin de vie
 			this.finVie();
 		}
+		// Plafonner au maximum pour le personnage
 		else if (energieActuelle >= this._energieMaximale) {
 			this._energieActuelle = this._energieMaximale;
 		}
@@ -110,6 +93,9 @@ public abstract class Personnage implements Dommageable {
 		}		
 	}
 	
+	/**
+	 * Fonction à exécuter lorsque le personnage meurt.
+	 */
 	public abstract void finVie();
 
 	/**
@@ -128,13 +114,18 @@ public abstract class Personnage implements Dommageable {
 		this._energieMaximale = energieMaximale;
 	}
 	
+	/**
+	 * Enlever des points de vie au personnage.
+	 */
 	@Override
-	public void prendreDegats(int degats) {
-		System.out.println(String.format("%s prend %s d�gats", this, degats));
-		
+	public void prendreDegats(int degats) {		
 		this.setEnergieActuelle(this._energieActuelle - degats);
 	}
 	
+	/**
+	 * Est-ce que le personnage est en vie ?
+	 * @return <code>true</code> s'il est encore en vie, <code>false</code> sinon.
+	 */
 	@Override
 	public boolean enVie() {
 		return this._energieActuelle > 0;
@@ -153,7 +144,14 @@ public abstract class Personnage implements Dommageable {
 	 * @param position Nouvelle position du personnage.
 	 */
 	public void setPosition(Case position) {
+		// Si position actuelle définie
+		if (this._position != null) {
+			// On enlève de la case actuelle
+			this._position.getOccupants().remove(this);
+		}
+		// On ajoute à la case d'arrivée
 		position.getOccupants().add(this);
+		// On change la référence
 		this._position = position;
 	}
 	

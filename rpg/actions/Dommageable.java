@@ -3,7 +3,6 @@ package rpg.actions;
 /**
  * Interface décrivant un objet interactif pouvant prendre des dégâts.
  * @author marechal
- *
  */
 public interface Dommageable extends Interactif {
 	/**
@@ -19,7 +18,7 @@ public interface Dommageable extends Interactif {
 	
 	/**
 	 * Est-ce que l'objet a encore de la vie ?
-	 * @return
+	 * @return <code>true</code> si oui, <code>false</code> sinon.
 	 */
 	public boolean enVie();
 }

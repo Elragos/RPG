@@ -1,8 +1,11 @@
 package rpg.actions;
 
-import rpg.Main;
+import java.util.ArrayList;
+
 import rpg.carte.Carte;
 import rpg.carte.Case;
+import rpg.carte.Coordonnees;
+import rpg.personnages.Heros;
 import rpg.personnages.Personnage;
 import rpg.personnages.TypePersonnage;
 
@@ -27,10 +30,31 @@ public class Deplacement implements Action {
 		
 		// On récupère la case où le personnage souhaite se déplacer
 		Case destination = carte.getCase(coordonnees);
-		// Si trouvé
-		if (destination != null) 
-			// On résoud le déplacement
-			return deplacer(carte, perso, destination);
+		// Si trouvé, on regarde si on peut bouger vers la destination possible
+		if (destination != null && peutBouger(carte, perso, destination)){
+			// On modifie la position du personnage
+			perso.setPosition(destination);
+			
+			// Si c'est le héros, lui infliger des dégats
+			if (perso instanceof Heros) {
+				Heros h = (Heros) perso;
+				System.out.printf("Le terrain vous inflige %s dégats", destination.getCoutEnergie());
+				System.out.println();
+				h.prendreDegats(destination.getCoutEnergie());
+				// Lui mettre 2 dégats supplémentaire s'il est malade
+				if (!h.enBonneSante()) {
+					System.out.println("Votre maladie vous inflige 2 dégâts");
+					h.prendreDegats(2);
+				}
+				// Le rendre malade, ou pas
+				destination.maladie(h);
+			}
+			
+			// On résoud les éventuelles rencontres sur la case
+			destination.resoudreRencontre();
+			// L'action est un succès
+			return true;
+		}
 		
 		// L'action est un échec
 		return false;
@@ -42,52 +66,61 @@ public class Deplacement implements Action {
 	 * @param quiBouge Personnage à bouger.
 	 * @param destination Destination du personnage
 	 */
-	private boolean deplacer(Carte carte, Personnage quiBouge, Case destination) {
-		// Si celui qui bouge est un guérisseur, on empêche l'action
-		if (quiBouge.getType() == TypePersonnage.Guerisseur)
+	public static boolean peutBouger(Carte carte, Personnage quiBouge, Case destination) {
+		// Si l'un des paramètres n'existe pas, on empêche l'action
+		if (carte == null || quiBouge == null || destination == null) {
 			return false;
+		}
 		
-		// Résultat de l'action
-		boolean resultat = false;
+		// Si celui qui bouge est un guérisseur, on empêche l'action
+		if (quiBouge.getType() == TypePersonnage.Guerisseur) {
+			return false;
+		}
 		
-		// On récupère la case de départ du personnage
-		Case depart = quiBouge.getPosition();
-		
+		// S'il souhaite faire du "Sur place", on empêche
+		if (destination == quiBouge.getPosition()) {
+			return false;
+		}
+			
 		// On récupère le premier occupant de la case 
 		Personnage occupantActuel = destination.getOccupants().size() > 0 ? destination.getOccupants().get(0) : null; 
 		
 		// Si trouvé
 		if (occupantActuel != null) {
-			// Si celui qui bouge est le héros
-			if (quiBouge.getType() == TypePersonnage.Heros) {
-				// La case de destination lui enlève de l'énergie
-				quiBouge.prendreDegats(destination.getCoutEnergie());
-				// Si l'occupant est un ennemi, on engage le combat!
-				if (occupantActuel.getType() == TypePersonnage.Ennemi)				
-					resultat = Main.EngagerCombat((Combattant)quiBouge, (Combattant)occupantActuel);
-			}
-			
 			// Si celui qui bouge est un ennemi
-			if (quiBouge.getType() == TypePersonnage.Ennemi) {
-				// Si l'occupant est un ennemi, on engage le combat!
-				if (occupantActuel.getType() == TypePersonnage.Heros)				
-					resultat = Main.EngagerCombat((Combattant)quiBouge, (Combattant)occupantActuel);
-				// Si l'occupant est un autre ennemi, on empêche l'action.
-				else if (occupantActuel.getType() == TypePersonnage.Ennemi)	
-					resultat = false;
+			if (quiBouge.getType() == TypePersonnage.Ennemi ) {
+				// Si l'occupant est un ennemi ou un guérisseur, on bloque le déplacement
+				if(occupantActuel.getType() == TypePersonnage.Ennemi || occupantActuel.getType() == TypePersonnage.Guerisseur) {
+					return false;
+				}
 			}
 		}
 		
-		// Si l'action a réussi
-		if (resultat) {
-			// On supprime le personnage de sa case de départ
-			depart.getOccupants().remove(quiBouge);
-			
-			// On ajoute le personnage à l'arrivée
-			destination.getOccupants().add(quiBouge);
+		return true;
+	}
+	
+	/**
+	 * Récupérer les déplacements possibles du personnage sur la carte.
+	 * @param c La carte où évolue le personnage.
+	 * @param p Le personnage qui bouge.
+	 * @return Les cases où le personnage peut se déplacer.
+	 */
+	public static ArrayList<Case> deplacementsPossibles(Carte c, Personnage p){
+		ArrayList<Case> resultat = new ArrayList<Case>();
+		
+		Coordonnees coordActuelle = p.getPosition().getCoordonnees();
+		
+		for (int latitude = coordActuelle.latitude - 1; latitude <= coordActuelle.latitude + 1; latitude++) {
+			for (int longitude = coordActuelle.longitude - 1; longitude <= coordActuelle.longitude + 1; longitude++) {
+				// On récupère la case correspondante aux coordonnées
+				Case possibilite = c.getCase(new Coordonnees(latitude, longitude));
+				// Si le déplacement est autorisé, on l'ajoute à la liste de résultat
+				if (Deplacement.peutBouger(c, p, possibilite)) {
+					resultat.add(possibilite);
+				}
+			}
 		}
 		
-		// Retourner le résultat de l'action
 		return resultat;
 	}
 }

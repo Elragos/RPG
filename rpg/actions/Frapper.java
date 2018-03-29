@@ -3,7 +3,6 @@ package rpg.actions;
 /**
  * Action d'attaque basique.
  * @author marechal
- *
  */
 public class Frapper implements Action {
 	/**
@@ -15,15 +14,17 @@ public class Frapper implements Action {
 	 */
 	@Override
 	public boolean executer(Interactif emetteur, Interactif receveur, Object... params) {
-		// On r�cup�re les combattants
+		// On récupère les combattants
 		Combattant attaquant = (Combattant) emetteur;
 		Combattant defenseur = (Combattant) receveur;
 		
 		// On calcule les dégâts que subit l'attaquant
 		System.out.println(String.format("%s inflige %s dégâts", attaquant, attaquant.calculerAttaque()));
-		System.out.println(String.format("%s a une d�fense de %s", defenseur, defenseur.calculerDefense()));
+		System.out.println(String.format("%s a une défense de %s", defenseur, defenseur.calculerDefense()));
 		
 		int degats = attaquant.calculerAttaque() - defenseur.calculerDefense();
+		
+		System.out.println(String.format("%s prend %s dégâts", defenseur, degats));
 		
 		// On notifie au défenseur les dégâts qu'il prend
 		defenseur.prendreDegats(degats);

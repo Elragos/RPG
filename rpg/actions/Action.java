@@ -3,7 +3,6 @@ package rpg.actions;
 /**
  * Interface définissant une action.
  * @author marechal
- *
  */
 public interface Action {
 	/**
